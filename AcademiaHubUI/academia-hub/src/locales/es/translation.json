@@ -1,0 +1,11 @@
+{
+    "login": {
+    "title": "Iniciar Sesión",
+    "username": "Usuario",
+    "password": "Contraseña",
+    "submit": "Iniciar",
+    "emailError": "El correo electrónico es obligatorio.",
+    "emailInvalid": "Formato de correo inválido.",
+    "passwordError": "La contraseña es obligatoria."
+  }
+}
