@@ -3,6 +3,8 @@ import {AppBar, Box, Grid, Table, TableCell, TableHead, TableRow, Toolbar, Typog
 import axios from 'axios';
 import Button from '../../components/Button/Button';
 import AddStudent from './AddStudent';
+import EditStudentPopup from './EditStudent';
+import DeleteStudentPopup from './DeleteStudent';
 type Student = {
     id?: number;
     username?: string;
@@ -13,6 +15,65 @@ type Student = {
   const Dashboard = () => {
     const [students, setStudents] = useState<Student[]>([]);
     const [showPopup, setShowPopup] = useState(false);
+    const [selectedStudent, setSelectedStudent] = useState(null);
+    const [editPopupOpen, setEditPopupOpen] = useState(false);
+  const [deletePopupOpen, setDeletePopupOpen] = useState(false);
+
+  const handleEditOpen = (student:any) => {
+    setSelectedStudent(student);
+    setEditPopupOpen(true);
+  };
+
+  const handleDeleteOpen = (student:any) => {
+    setSelectedStudent(student);
+    setDeletePopupOpen(true);
+  };
+
+  const handleClose = () => {
+    setSelectedStudent(null);
+    setEditPopupOpen(false);
+  };
+  const handleEditSave = async (updatedStudent: { id: number; username: string; email: string; phoneNumber: string }) => {
+    try {
+      // Make the API call to update the student
+      const response = await fetch(`http://localhost:8080/api/students/${updatedStudent.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedStudent),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to update student: ${response.statusText}`);
+      }
+  
+      const updatedData = await response.json();
+  
+      // Update the state with the updated student data
+      setStudents((prevStudents) =>
+        prevStudents.map((student) =>
+          student.id === updatedData.id ? updatedData : student
+        )
+      );
+    } catch (error) {
+      console.error("Error updating student:", error);
+      alert("Failed to update the student. Please try again.");
+    }
+  };
+  
+
+  const handleDeleteConfirm = async (id: number) => {
+    try {
+      // Make a DELETE API request to the backend
+      await axios.delete(`http://localhost:8080/api/students/${id}`);
+      
+      // Update the students list after deletion
+      setStudents((prev) => prev.filter((s) => s.id !== id));
+    } catch (error) {
+      console.error("There was an error deleting the student!", error);
+    }
+  };
     const handleAddStudent = (student: { name: string; email: string; phoneNumber: string }) => {
       setStudents((prev) => [...prev, student]);
     };
@@ -61,8 +122,8 @@ type Student = {
               <TableCell sx={{textAlign:'center'}}>{student.phoneNumber}</TableCell>
               <TableCell >
                 <Box display={'flex'} flexDirection={'row'} gap={'5px'} sx={{justifyContent:'center'}}>
-                <Button text={'Edit'} disabled={false} variant='primary' size='small'/>
-                <Button text={'Delete'} disabled={false} variant='primary' size='small' />
+                <Button text={'Edit'} disabled={false} variant='primary' size='small' onClick={() => handleEditOpen(student)}/>
+                <Button text={'Delete'} disabled={false} variant='primary' size='small' onClick={() => handleDeleteOpen(student)} />
                 </Box>
               </TableCell>
             </TableRow>
@@ -70,10 +131,29 @@ type Student = {
         </tbody>
       </Table>
       {showPopup && (
+        
         <AddStudent
             onClose={() => setShowPopup(false)}
             onStudentAdded={handleAddStudent} open={showPopup}        />
-      )}
+          )}
+          
+          {selectedStudent && (
+            <>
+            <EditStudentPopup
+            open={editPopupOpen}
+            onClose={handleClose}
+            onSave={handleEditSave}
+            student={selectedStudent}
+          />
+          <DeleteStudentPopup
+            open={deletePopupOpen}
+            onClose={() => setDeletePopupOpen(false)}
+            onConfirm={handleDeleteConfirm}
+            student={selectedStudent}
+          />
+          </>
+          )}
+      
       </Grid>
     
    </Grid>
