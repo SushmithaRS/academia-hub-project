@@ -10,11 +10,12 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
+import apiClient from "../../ApiClient";
 
 type AddStudentPopupProps = {
   open: boolean;
   onClose: () => void;
-  onStudentAdded: (student: { name: string; email: string; phoneNumber: string }) => void;
+  onStudentAdded: (student: { id: number; username: string; email: string; phoneNumber: string }) => void;
 };
 
 const AddStudent: React.FC<AddStudentPopupProps> = ({ open, onClose, onStudentAdded }) => {
@@ -24,15 +25,21 @@ const AddStudent: React.FC<AddStudentPopupProps> = ({ open, onClose, onStudentAd
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [loading, setLoading] = useState(false); // Loading state for API call
 
+  // Validation function
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
 
+    // Validate name
     if (!username.trim()) newErrors.name = "Name is required.";
+
+    // Validate email
     if (!email.trim()) {
       newErrors.email = "Email is required.";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       newErrors.email = "Invalid email format.";
     }
+
+    // Validate phone number
     if (!phoneNumber.trim()) {
       newErrors.phoneNumber = "Phone number is required.";
     } else if (!/^\d{10}$/.test(phoneNumber)) {
@@ -43,23 +50,25 @@ const AddStudent: React.FC<AddStudentPopupProps> = ({ open, onClose, onStudentAd
     return Object.keys(newErrors).length === 0;
   };
 
+  // Handle form submission
   const handleSave = async () => {
     if (validate()) {
       setLoading(true); // Start loading
       try {
-        const response = await axios.post("http://localhost:8080/api/students", {
+        const response = await apiClient.post("http://localhost:8080/api/students", {
           username,
           email,
           phoneNumber,
         });
         onStudentAdded(response.data); // Notify parent component
         onClose(); // Close popup
-        setName("");
+        setName(""); // Reset form
         setEmail("");
         setPhoneNumber("");
       } catch (error: any) {
         // Handle API error
-        setErrors({ api: error.response?.data?.message || "Failed to add student." });
+        const errorMessage = error.response?.data?.message || "Failed to add student.";
+        setErrors({ api: errorMessage });
       } finally {
         setLoading(false); // Stop loading
       }

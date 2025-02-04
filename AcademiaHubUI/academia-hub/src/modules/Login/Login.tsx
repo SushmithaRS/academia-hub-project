@@ -1,116 +1,114 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TextField } from '../../components/TextField/TextField';
-import { Grid, Typography } from '@mui/material';
-import { LoginContainer } from './Login.Styled';
-import Button from '../../components/Button/Button';
+import { AppBar, Box, Button, Card, CardContent, CssBaseline, Toolbar, Typography } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import LanguageToggle from '../../components/LanguageToggle/LanguageToggle';
+
 const Login: React.FC = () => {
+  const { t} = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const [fieldErrors, setFieldErrors] = useState({
-    username: '',
-    password: '',
-  });
+  const [fieldErrors, setFieldErrors] = useState({ username: '', password: '' });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === 'email') {
       setEmail(value);
       setFieldErrors((prev) => ({ ...prev, username: '' }));
-
     } else if (name === 'password') {
       setPassword(value);
       setFieldErrors((prev) => ({ ...prev, password: '' }));
-
     }
   };
 
- 
   const handleSubmit = () => {
-    // Validate fields before submission
     if (!validateFields()) return;
 
-    const userCredentials = {
-      username: email,
-      password: password,
-      // email: email,
-    };
+    const userCredentials = { username: email, password };
 
     axios
       .post('http://localhost:8080/api/auth/login', userCredentials)
       .then((response) => {
-        console.log('Login successful:', response);
-        alert('login successful');
-        navigate('/dashboard');
-      })
-      .catch((error) => {
-        console.error('There was an error!', error);
-        alert('Invalid username or password');
-      });
+        localStorage.setItem('username', userCredentials.username);
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('role', response.data.role);
 
+        alert(t('login_success')); // Use translation key
+
+        if (response.data.role === 'admin') navigate('/dashboard');
+        else if (response.data.role === 'student') navigate('/student-profile');
+      })
+      .catch(() => {
+        alert(t('invalid_credentials'));
+      });
   };
 
   const validateFields = () => {
-    const errors: { username: string; password: string } = {
-      username: '',
-      password: '',
-    };
+    const errors: { username: string; password: string } = { username: '', password: '' };
 
-    // Email validation
-    if (!email.trim()) errors.username = 'Username is required.';
-
-    // Password validation
-    if (!password.trim()) {
-      errors.password = 'Password is required.';
-    }
+    if (!email.trim()) errors.username = t('enter_username');
+    if (!password.trim()) errors.password = t('enter_password');
 
     setFieldErrors(errors);
-
-    // Return true if no errors exist
     return Object.values(errors).every((error) => error === '');
   };
 
   return (
-    <LoginContainer container >
-      <Grid item xs={12}>
-        <Typography>LOGIN</Typography>
-      </Grid>
-      <Grid item xs={12}>
-      <TextField
-        id="email"
-        name="email"
-        label="Username"
-        type="text"
-        required
-        value={email}
-        handleChange={handleChange}
-        placeholder="Enter your username"
-        style={{width:'500px',justifyContent:'center'}}
-        error={!!fieldErrors.username} 
-        errorMsg={fieldErrors.username}
-      />
-      </Grid>
-      <Grid item xs={12}>
-      <TextField
-        id="password"
-        name="password"
-        label="Password"
-        type="password"
-        required
-        value={password}
-        handleChange={handleChange}
-        placeholder="Enter your password"
-        style={{width:'500px',justifyContent:'center'}}
-        error={!!fieldErrors.password} 
-        errorMsg={fieldErrors.password}
-      />
-      </Grid>
-      <Grid item xs={12}>
-      <Button type="submit" onClick={handleSubmit} variant='primary' text='Login' disabled={false} />
-      </Grid>
-    </LoginContainer>
+    <>
+    <CssBaseline />
+    <AppBar position="static">
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <h2>Academia Hub</h2>
+        <LanguageToggle />
+      </Toolbar>
+    </AppBar>
+    <Box sx={{ minHeight: '90vh', minWidth: '100vw', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#f0f4fc' }}>
+      <Card sx={{ width: 500, boxShadow: 3, borderRadius: 4, backgroundColor: '#ffffff' }}>
+        <CardContent>
+          <Typography variant="h4" color="primary" align="center" gutterBottom>
+            {t('login')}
+          </Typography>
+          <TextField
+            id="email"
+            name="email"
+            label={t('username')}
+            type="text"
+            required
+            value={email}
+            handleChange={handleChange}
+            placeholder={t('enter_username')}
+            error={!!fieldErrors.username}
+            errorMsg={fieldErrors.username}
+          />
+          <TextField
+            id="password"
+            name="password"
+            label={t('password')}
+            type="password"
+            required
+            value={password}
+            handleChange={handleChange}
+            placeholder={t('enter_password')}
+            error={!!fieldErrors.password}
+            errorMsg={fieldErrors.password}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={handleSubmit}
+            sx={{ py: 1.5, textTransform: 'none', fontWeight: 'bold', borderRadius: 2, mb: 2 }}
+          >
+            {t('login')}
+          </Button>
+        </CardContent>
+      </Card>
+    </Box>
+    </>
   );
 };
 

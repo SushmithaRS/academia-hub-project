@@ -5,7 +5,7 @@ type DeleteStudentPopupProps = {
   open: boolean;
   onClose: () => void;
   onConfirm: (id: number) => void;
-  student: { id: number; name: string; email: string; phoneNumber: string };
+  student: { id: number; username: string; email: string; phoneNumber: string };
 };
 
 const DeleteStudentPopup: React.FC<DeleteStudentPopupProps> = ({
