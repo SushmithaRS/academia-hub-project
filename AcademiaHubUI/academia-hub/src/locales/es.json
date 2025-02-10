@@ -1,0 +1,54 @@
+{
+    "login": "Iniciar sesión",
+    "username": "Nombre de usuario",
+    "password": "Contraseña",
+    "enter_username": "Introduce tu nombre de usuario",
+    "enter_password": "Introduce tu contraseña",
+    "login_success": "Inicio de sesión exitoso",
+    "invalid_credentials": "Usuario o contraseña inválidos",
+    "signup": {
+        "title": "Registrarse",
+        "username": "Nombre de usuario",
+        "usernamePlaceholder": "Ingrese su nombre de usuario",
+        "email": "Correo electrónico",
+        "emailPlaceholder": "Ingrese su correo electrónico",
+        "phoneNumber": "Número de teléfono",
+        "phoneNumberPlaceholder": "Ingrese su número de teléfono",
+        "password": "Contraseña",
+        "passwordPlaceholder": "Ingrese su contraseña",
+        "confirmPassword": "Confirmar contraseña",
+        "confirmPasswordPlaceholder": "Confirme su contraseña",
+        "role": "Rol",
+        "admin": "Administrador",
+        "student": "Estudiante",
+        "submit": "Registrarse",
+        "loginLink": "¿Ya tienes una cuenta? Inicia sesión aquí."
+    },
+    "errors": {
+        "usernameRequired": "Se requiere un nombre de usuario.",
+        "emailRequired": "Se requiere un correo electrónico.",
+        "invalidEmail": "Formato de correo electrónico no válido.",
+        "passwordRequired": "Se requiere una contraseña.",
+        "passwordShort": "La contraseña debe tener al menos 6 caracteres.",
+        "confirmPasswordRequired": "Se requiere la confirmación de la contraseña.",
+        "passwordMismatch": "Las contraseñas no coinciden.",
+        "phoneNumberRequired": "Se requiere un número de teléfono.",
+        "invalidPhoneNumber": "El número de teléfono debe tener 10 dígitos válidos.",
+        "registrationFailed": "El registro ha fallado. Inténtalo de nuevo."
+    },
+    "success": {
+        "registration": "Registro exitoso"
+    },
+    "dashboard": {
+        "title": "Academia Hub",
+        "search": "Buscar Estudiantes",
+        "addStudent": "Agregar Estudiante",
+        "studentManagement": "Gestión de Estudiantes",
+        "documentUpload": "Subir Documentos",
+        "uploadedDocuments": "Documentos Subidos",
+        "upload": "Subir",
+        "open": "Abrir",
+        "delete": "Eliminar",
+        "edit": "Editar"
+    }
+}

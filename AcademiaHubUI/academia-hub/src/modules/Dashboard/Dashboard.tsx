@@ -23,6 +23,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import apiClient from "../../ApiClient";
+import axios from "axios";
+import { Delete, Edit, UploadFile } from "@mui/icons-material";
 
 type Student = {
   id: number;
@@ -242,6 +244,28 @@ const Dashboard = () => {
     navigate("/login");
   };
 
+  const handleOpenDocument = async (filePath: string) => {
+    try {
+      const token = localStorage.getItem("token"); // Retrieve token from localStorage
+  
+      const response = await axios.get(`http://localhost:8080/${filePath.replace(/\\/g, "/")}`, {
+        responseType: "blob", 
+        headers: {
+          Authorization: `Bearer ${token}`, // Pass token in Authorization header
+        },
+      });
+  
+      // Convert the response to a downloadable URL and open it
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      window.open(url, "_blank");
+    } catch (error) {
+      console.error("Error opening document:", error);
+      alert("Failed to open the document.");
+    }
+  };
+  
+  
+
   return (
     <Grid container height={"100vh"} width={"100vw"}>
       <Grid item xs={12}>
@@ -427,11 +451,7 @@ const Dashboard = () => {
                             <MuiButton
                               variant="outlined"
                               color="primary"
-                              href={`http://localhost:8080/${doc.filePath.replace(
-                                /\\/g,
-                                "/"
-                              )}`}
-                              target="_blank"
+                              onClick={() => handleOpenDocument(doc.filePath)}
                             >
                               Open
                             </MuiButton>
@@ -441,7 +461,7 @@ const Dashboard = () => {
                               color="error"
                               onClick={() => handleDeleteDocument(doc.id)}
                             >
-                              <LogoutIcon /> 
+                              <Delete /> 
                             </IconButton>
                           </TableCell>
                         </TableRow>

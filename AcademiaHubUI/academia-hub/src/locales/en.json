@@ -1,0 +1,54 @@
+{
+    "login": "Login",
+    "username": "Username",
+    "password": "Password",
+    "enter_username": "Enter your username",
+    "enter_password": "Enter your password",
+    "login_success": "Login successful",
+    "invalid_credentials": "Invalid username or password",
+    "signup": {
+        "title": "Sign Up",
+        "username": "Username",
+        "usernamePlaceholder": "Enter your username",
+        "email": "Email",
+        "emailPlaceholder": "Enter your email",
+        "phoneNumber": "Phone Number",
+        "phoneNumberPlaceholder": "Enter your phone number",
+        "password": "Password",
+        "passwordPlaceholder": "Enter your password",
+        "confirmPassword": "Confirm Password",
+        "confirmPasswordPlaceholder": "Confirm your password",
+        "role": "Role",
+        "admin": "Admin",
+        "student": "Student",
+        "submit": "Sign Up",
+        "loginLink": "Already a user? Login here."
+    },
+    "errors": {
+        "usernameRequired": "Username is required.",
+        "emailRequired": "Email is required.",
+        "invalidEmail": "Invalid email format.",
+        "passwordRequired": "Password is required.",
+        "passwordShort": "Password must be at least 6 characters long.",
+        "confirmPasswordRequired": "Confirm Password is required.",
+        "passwordMismatch": "Passwords do not match.",
+        "phoneNumberRequired": "Phone number is required.",
+        "invalidPhoneNumber": "Phone number must be a valid 10-digit number.",
+        "registrationFailed": "Registration failed. Please try again."
+    },
+    "success": {
+        "registration": "Registration successful"
+    },
+    "dashboard": {
+        "title": "Academia Hub",
+        "search": "Search Students",
+        "addStudent": "Add Student",
+        "studentManagement": "Student Management",
+        "documentUpload": "Document Upload",
+        "uploadedDocuments": "Uploaded Documents",
+        "upload": "Upload",
+        "open": "Open",
+        "delete": "Delete",
+        "edit": "Edit"
+    }
+}

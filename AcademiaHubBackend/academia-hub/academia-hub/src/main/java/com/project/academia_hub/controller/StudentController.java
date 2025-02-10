@@ -7,6 +7,7 @@ import com.project.academia_hub.service.LogService;
 import com.project.academia_hub.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -27,7 +28,7 @@ public class StudentController {
         this.fileService = fileService;
         this.logService = logService;
     }
-
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping
     public ResponseEntity<List<User>> getAllStudents() {
         List<User> students = studentService.getAllStudents();
@@ -59,14 +60,14 @@ public class StudentController {
         logService.logAction(student.getUsername(), "Student Update", "Updated student details", LocalDateTime.now());
         return ResponseEntity.ok(updatedStudent);
     }
-
+    @PreAuthorize("hasAuthority('admin')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable("id") Long id) {
         studentService.deleteStudent(id);
         logService.logAction("ADMIN", "Delete Student", "Deleted student with ID " + id, LocalDateTime.now());
         return ResponseEntity.noContent().build();
     }
-
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping("/search")
     public ResponseEntity<List<User>> searchAndFilterStudents(
             @RequestParam(value = "name", required = false) String name,
