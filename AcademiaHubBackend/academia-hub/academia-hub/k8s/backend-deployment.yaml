@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: academia-hub-backend
+  namespace: academia-hub
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: academia-hub-backend
+  template:
+    metadata:
+      labels:
+        app: academia-hub-backend
+    spec:
+      containers:
+        - name: academia-hub-backend
+          image: 405894863687.dkr.ecr.ap-south-1.amazonaws.com/academia-hub-backend:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: "your-database-host"
+            - name: DB_USER
+              value: "your-database-user"
+            - name: DB_PASS
+              value: "your-database-password"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: academia-hub-backend-service
+  namespace: academia-hub
+spec:
+  selector:
+    app: academia-hub-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
+ 
