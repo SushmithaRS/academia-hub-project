@@ -7,6 +7,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 type EditStudentPopupProps = {
   open: boolean;
@@ -29,7 +30,7 @@ const EditStudentPopup: React.FC<EditStudentPopupProps> = ({
     email: "",
     phoneNumber: "",
   });
-
+const {t}=useTranslation();
   // Synchronize state with student prop
   useEffect(() => {
     if (student) {
@@ -84,30 +85,30 @@ const EditStudentPopup: React.FC<EditStudentPopupProps> = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Edit Student</DialogTitle>
+      <DialogTitle>{t("editStudent")}</DialogTitle>
       <DialogContent>
         <TextField
-          label="Username"
+          label={t("name")}
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
           fullWidth
           margin="normal"
           error={!!errors.username}
           helperText={errors.username}
         />
         <TextField
-          label="Email"
+          label={t("email")}
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
           fullWidth
           margin="normal"
           error={!!errors.email}
           helperText={errors.email}
         />
         <TextField
-          label="Phone Number"
+          label={t("phoneNumber")}
           value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhoneNumber(e.target.value)}
           fullWidth
           margin="normal"
           error={!!errors.phoneNumber}
@@ -115,9 +116,9 @@ const EditStudentPopup: React.FC<EditStudentPopupProps> = ({
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={onClose}>{t("cancel")}</Button>
         <Button onClick={handleSave} color="primary">
-          Save
+          {t("save")}
         </Button>
       </DialogActions>
     </Dialog>

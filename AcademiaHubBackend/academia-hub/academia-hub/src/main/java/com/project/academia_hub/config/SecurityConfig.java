@@ -37,7 +37,7 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/api/auth/user/**")).permitAll()// Allow access to auth endpoints
                         .requestMatchers(new AntPathRequestMatcher("/api/students/with-documents/**")).authenticated()
                         .requestMatchers(new AntPathRequestMatcher("/uploads/**")).authenticated()
-                        .anyRequest().authenticated() // Secure other endpoints
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userService),
                         UsernamePasswordAuthenticationFilter.class) // Add JWT filter to secure endpoints

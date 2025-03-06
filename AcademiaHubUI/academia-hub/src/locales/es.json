@@ -39,7 +39,6 @@
     "success": {
         "registration": "Registro exitoso"
     },
-    "dashboard": {
         "title": "Academia Hub",
         "search": "Buscar Estudiantes",
         "addStudent": "Agregar Estudiante",
@@ -49,6 +48,22 @@
         "upload": "Subir",
         "open": "Abrir",
         "delete": "Eliminar",
-        "edit": "Editar"
-    }
+        "edit": "Editar",
+        "name": "Nombre",
+         "selectStudent": "Seleccionar un estudiante",
+    "email": "Correo Electrónico",
+    "phoneNumber": "Número de Teléfono",
+    "actions": "Acciones",
+    "fileName": "Nombre del archivo",
+  "link": "Enlace",
+  "noFilesChosen": "No se han seleccionado archivos",
+  "chooseFiles": "Seleccionar archivos",
+  "uploading": "Subiendo...",
+  "adminProfile": "Perfil de Administrador",
+    "cancel": "Cancelar",
+  "save": "Guardar",
+  "editStudent": "Editar Estudiante",
+  "confirmDeleteStudent": "¿Estás seguro de que deseas eliminar a este estudiante?",
+  "deleteStudent": "Eliminar Estudiante"
+
 }

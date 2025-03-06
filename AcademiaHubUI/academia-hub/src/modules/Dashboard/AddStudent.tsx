@@ -9,8 +9,8 @@ import {
   CircularProgress,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import apiClient from "../../ApiClient";
+import { t } from "i18next";
 
 type AddStudentPopupProps = {
   open: boolean;
@@ -77,41 +77,41 @@ const AddStudent: React.FC<AddStudentPopupProps> = ({ open, onClose, onStudentAd
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Add Student</DialogTitle>
+      <DialogTitle>{t("addStudent")}</DialogTitle>
       <DialogContent>
         {errors.api && <Typography color="error">{errors.api}</Typography>}
         <TextField
-          label="Name"
+          label={t("name")}
           fullWidth
           margin="normal"
           value={username}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
           error={!!errors.name}
           helperText={errors.name}
         />
         <TextField
-          label="Email"
+          label={t("email")}
           fullWidth
           margin="normal"
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
           error={!!errors.email}
           helperText={errors.email}
         />
         <TextField
-          label="Phone Number"
+          label={t("phoneNumber")}
           fullWidth
           margin="normal"
           value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhoneNumber(e.target.value)}
           error={!!errors.phoneNumber}
           helperText={errors.phoneNumber}
         />
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="secondary" disabled={loading}>
-          Cancel
+          {t("cancel")}
         </Button>
         <Button
           onClick={handleSave}
@@ -120,7 +120,7 @@ const AddStudent: React.FC<AddStudentPopupProps> = ({ open, onClose, onStudentAd
           disabled={loading}
           startIcon={loading && <CircularProgress size={16} />}
         >
-          Save
+          {t("save")}
         </Button>
       </DialogActions>
     </Dialog>

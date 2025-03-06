@@ -30,7 +30,7 @@ const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
       endIcon={endIcon}
       size={size}
       type={type}
-      variant={variant}
+      variant={variant as "text" | "outlined" | "contained"}
       onClick={handleClick}
     >
       {text}

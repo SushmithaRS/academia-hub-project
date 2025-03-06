@@ -1,5 +1,6 @@
 import React from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 type DeleteStudentPopupProps = {
   open: boolean;
@@ -18,17 +19,17 @@ const DeleteStudentPopup: React.FC<DeleteStudentPopupProps> = ({
     onConfirm(student.id);
     onClose();
   };
-
+const {t}=useTranslation();
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Delete Student</DialogTitle>
+      <DialogTitle>{t("deleteStudent")}</DialogTitle>
       <DialogContent>
-        Are you sure you want to delete this student?
+        {t("confirmDeleteStudent")}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={onClose}>{t("cancel")}</Button>
         <Button onClick={handleConfirm} color="error">
-          Delete
+          {t("delete")}
         </Button>
       </DialogActions>
     </Dialog>

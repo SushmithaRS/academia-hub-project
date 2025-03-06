@@ -24,7 +24,9 @@ import { useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import apiClient from "../../ApiClient";
 import axios from "axios";
-import { Delete, Edit, UploadFile } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
+import LanguageToggle from "../../components/LanguageToggle/LanguageToggle";
 
 type Student = {
   id: number;
@@ -55,6 +57,7 @@ const Dashboard = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const navigate = useNavigate();
+  const {t}=useTranslation();
 
   // Fetch all students
   const fetchStudents = async (name = "", email = "") => {
@@ -87,6 +90,7 @@ const Dashboard = () => {
   // Handle tab change
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setSelectedTab(newValue);
+    console.log(event);
   };
 
   // Handle search
@@ -187,7 +191,7 @@ const Dashboard = () => {
     formData.append("studentId", String(studentId));
 
     try {
-      const response = await apiClient.post(
+      await apiClient.post(
         "/documents/upload",
         formData,
         {
@@ -274,6 +278,7 @@ const Dashboard = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Academia Hub
             </Typography>
+            <LanguageToggle />
             <IconButton color="inherit" onClick={() => navigate("/profile")}>
               <AccountCircleIcon />
             </IconButton>
@@ -293,14 +298,14 @@ const Dashboard = () => {
         padding="20px"
       >
         <TextField
-          label="Search Students"
+          label={t("search")}
           variant="outlined"
           value={searchQuery}
           onChange={handleSearch}
           sx={{ width: "300px" }}
         />
         <Button
-          text="Add Student"
+          text={t("addStudent")}
           onClick={() => setShowPopup(true)}
           disabled={false}
           variant="primary"
@@ -311,8 +316,8 @@ const Dashboard = () => {
       <Grid item xs={12} height={"100%"}>
         <Box>
           <Tabs value={selectedTab} onChange={handleTabChange}>
-            <Tab label="Student Management" />
-            <Tab label="Document Upload" />
+            <Tab label={t("studentManagement")} />
+            <Tab label={t("documentUpload")} />
           </Tabs>
 
           {selectedTab === 0 && (
@@ -320,10 +325,10 @@ const Dashboard = () => {
               <Table style={{ width: "100%", textAlign: "center" }}>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Email</TableCell>
-                    <TableCell>Phone Number</TableCell>
-                    <TableCell>Actions</TableCell>
+                    <TableCell>{t("name")}</TableCell>
+                    <TableCell>{t("email")}</TableCell>
+                    <TableCell>{t("phoneNumber")}</TableCell>
+                    <TableCell>{t("actions")}</TableCell>
                   </TableRow>
                 </TableHead>
                 <tbody>
@@ -335,14 +340,14 @@ const Dashboard = () => {
                       <TableCell>
                         <Box display="flex" gap="10px" justifyContent="center">
                           <Button
-                            text="Edit"
+                            text={t("edit")}
                             onClick={() => handleEditOpen(student)}
                             variant="primary"
                             size="small"
                             disabled={false}
                           />
                           <Button
-                            text="Delete"
+                            text={t("delete")}
                             onClick={() => handleDeleteOpen(student)}
                             variant="primary"
                             size="small"
@@ -386,7 +391,7 @@ const Dashboard = () => {
           {selectedTab === 1 && (
             <Box p={3}>
               <Typography variant="h6" gutterBottom>
-                Upload Documents
+                {t("uploadedDocuments")}
               </Typography>
 
               {/* Dropdown for selecting a student */}
@@ -395,7 +400,7 @@ const Dashboard = () => {
                 select
                 fullWidth
                 value={selectedStudent?.id || ""}
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   const student = students.find(
                     (s) => s.id === Number(e.target.value)
                   );
@@ -407,7 +412,7 @@ const Dashboard = () => {
                 sx={{ mb: 2 }}
               >
                 <option value="" disabled>
-                  -- Select a Student --
+                  -- {t("selectStudent")}--
                 </option>
                 {students.map((student) => (
                   <option key={student.id} value={student.id}>
@@ -425,7 +430,7 @@ const Dashboard = () => {
                   onClick={handleUpload}
                   disabled={uploading || !selectedStudent}
                 >
-                  {uploading ? "Uploading..." : "Upload"}
+                  {uploading ? t("Uploading") : t("upload")}
                 </MuiButton>
               </Box>
 
@@ -433,14 +438,14 @@ const Dashboard = () => {
               {selectedStudent && (
                 <Box mt={4}>
                   <Typography variant="h6" gutterBottom>
-                    Uploaded Documents
+                  {t("uploadedDocuments")}
                   </Typography>
                   <Table style={{ width: "100%" }}>
                     <TableHead>
                       <TableRow>
-                        <TableCell>File Name</TableCell>
-                        <TableCell>Link</TableCell>
-                        <TableCell>Actions</TableCell>
+                        <TableCell>{t("fileName")}</TableCell>
+                        <TableCell>{t("link")}</TableCell>
+                        <TableCell>{t("actions")}</TableCell>
                       </TableRow>
                     </TableHead>
                     <tbody>
@@ -453,7 +458,7 @@ const Dashboard = () => {
                               color="primary"
                               onClick={() => handleOpenDocument(doc.filePath)}
                             >
-                              Open
+                              {t("open")}
                             </MuiButton>
                           </TableCell>
                           <TableCell>

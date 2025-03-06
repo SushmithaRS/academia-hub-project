@@ -197,21 +197,21 @@ const StudentProfile: React.FC = () => {
             fullWidth
             margin="dense"
             value={updatedUser.username}
-            onChange={(e) => setUpdatedUser({ ...updatedUser, username: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUpdatedUser({ ...updatedUser, username: e.target.value })}
           />
           <TextField
             label="Email"
             fullWidth
             margin="dense"
             value={updatedUser.email}
-            onChange={(e) => setUpdatedUser({ ...updatedUser, email: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUpdatedUser({ ...updatedUser, email: e.target.value })}
           />
           <TextField
             label="Phone Number"
             fullWidth
             margin="dense"
             value={updatedUser.phoneNumber}
-            onChange={(e) => setUpdatedUser({ ...updatedUser, phoneNumber: e.target.value })}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUpdatedUser({ ...updatedUser, phoneNumber: e.target.value })}
           />
         </DialogContent>
         <DialogActions>

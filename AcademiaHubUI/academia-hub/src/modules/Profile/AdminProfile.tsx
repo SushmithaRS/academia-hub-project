@@ -8,12 +8,11 @@ import {
   Grid,
   Paper,
   CircularProgress,
-  Avatar,
-  Button,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../ApiClient";
+import { useTranslation } from "react-i18next";
 
 interface AdminProfile {
   username: string;
@@ -26,7 +25,7 @@ const AdminProfile: React.FC = () => {
   const [profile, setProfile] = useState<AdminProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-
+  const {t}=useTranslation();
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
 
@@ -69,7 +68,7 @@ const AdminProfile: React.FC = () => {
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            Admin Profile
+            {t("adminProfile")}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -99,19 +98,19 @@ const AdminProfile: React.FC = () => {
           <Grid container spacing={3} justifyContent="center">
             <Grid item xs={12}>
               <Typography variant="subtitle1" color="textSecondary">
-                Name
+                {t("name")}
               </Typography>
               <Typography variant="h6">{profile?.username}</Typography>
             </Grid>
             <Grid item xs={12}>
               <Typography variant="subtitle1" color="textSecondary">
-                Mobile
+                {t("phoneNumber")}
               </Typography>
               <Typography variant="h6">{profile?.phoneNumber}</Typography>
             </Grid>
             <Grid item xs={12}>
               <Typography variant="subtitle1" color="textSecondary">
-                Email
+                {t("email")}
               </Typography>
               <Typography variant="h6">{profile?.email}</Typography>
             </Grid>
